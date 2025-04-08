@@ -1,0 +1,62 @@
+﻿<Window x:Class="LaboratorySystem.ResearchAssistantWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Окно лаборанта-исследователя" Height="628" Width="623"
+        WindowStartupLocation="CenterScreen" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="503*"/>
+            <RowDefinition Height="55*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка -->
+        <DockPanel Grid.Row="0" Background="#FF5722" LastChildFill="False">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Image Width="50" Height="50" x:Name="img" 
+                           Margin="0,0,10,0"/>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Лаборант-исследователь:" Foreground="White"/>
+                    <TextBlock x:Name="tbUserName" Text="Иванов Иван" 
+                                   Foreground="White" FontWeight="Bold"/>
+
+                </StackPanel>
+            </StackPanel>
+            <Button x:Name="btnLogout" Content="Выход" Margin="10" Padding="10,5" DockPanel.Dock="Right" Click="BtnLogout_Click" Background="#FFE47541" Height="34"/>
+        </DockPanel>
+
+        <Label Grid.Row="1" Content="Список невыполненных услуг:" Margin="10,61,0,0" RenderTransformOrigin="0.504,0.519" HorizontalAlignment="Left" Width="186" Height="27" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dgServe"  AutoGenerateColumns="False" Height="350" Grid.Row="1" Width="577" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,94,0,0">
+            <DataGrid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.219"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.792"/>
+                </TransformGroup>
+            </DataGrid.RenderTransform>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Услуга" Binding="{Binding Services.service}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding id_order}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding id_status}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Выбрать">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="chkServices"  IsChecked="{Binding tr}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Статусная строка -->
+        <Grid Grid.Row="1" Margin="0,499,0,0" Background="#FF5722" Grid.RowSpan="2">
+            <TextBlock x:Name="tbTimer" Text="02:30:00" Foreground="white" FontWeight="Bold" Margin="10,0,325,0" VerticalAlignment="Center"/>
+        </Grid>
+        <Button Content="Отправка" HorizontalAlignment="Left" Margin="221,453,0,0" Grid.Row="1" VerticalAlignment="Top" Width="136" Click="Button_Click" Background="#FFDE762E" Height="33"/>
+        <Label Content="Анализатор" Grid.Row="1" Margin="10,10,0,0" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81"/>
+        <ComboBox DisplayMemberPath="name" x:Name="cmbAnalyser" Margin="91,12,0,0" Grid.Row="1" VerticalAlignment="Top" Height="27" SelectionChanged="cmbAnalyser_SelectionChanged" HorizontalAlignment="Left" Width="285"/>
+        <Button x:Name="btnGet" Content="Получение" HorizontalAlignment="Left" Margin="50,453,0,0" Grid.Row="1" VerticalAlignment="Top" Width="118" Click="Button_Click_1" Background="#FFDE762E" Height="33"/>
+        <ProgressBar Maximum="100" Minimum="0" x:Name="progBar" Visibility="Hidden" HorizontalAlignment="Left" Margin="120,46,0,0" Grid.Row="1" Width="418" Height="10" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

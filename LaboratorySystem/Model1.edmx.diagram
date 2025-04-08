@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="414fad47f01447c695983aa6ae87760e" Name="Diagram1">
+        <EntityTypeShape EntityType="УП01Model.Analyser" Width="1.5" PointX="6" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Bills" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.HistoryIn" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.InfoАnalyser" Width="1.5" PointX="8.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Insurance" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Order" Width="1.5" PointX="5.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Reasons" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Services" Width="1.5" PointX="5.25" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.ServicesForOrder" Width="1.5" PointX="7.5" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Status" Width="1.5" PointX="5.25" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.TypesPolises" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="УП01Model.Users" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="УП01Model.FK_InfoАnalyser_Analyser" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_Bills_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_HistoryIn_Reasons" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_HistoryIn_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_InfoАnalyser_ServicesForOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_InfoАnalyser_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_Users_Insurance" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_Order_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_ServicesForOrder_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_Users_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_ServicesForOrder_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_ServicesForOrder_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="УП01Model.FK_Users_TypesPolises" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

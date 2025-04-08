@@ -1,0 +1,778 @@
+Вот все кода. Исправь все ошибки, подправь все коды, сделай так, чтобы Окно блокировки хорошо работало после каждой неправильно введенной капчи(После попытки неудачной авторизации с вводом captcha, система блокирует возможность входа на 10 секунд).
+Код AccountantWindow.xaml.cs:
+using System.Windows;
+using System.Windows.Controls;
+
+namespace LaboratorySystem
+{
+    public partial class AccountantWindow : UserWindow
+    {
+        public AccountantWindow(int userId, string login, string role) : base(userId, login, role)
+        {
+            InitializeComponent();
+            LoadMenu();
+        }
+
+        private void LoadMenu()
+        {
+            StackPanel menuPanel = new StackPanel();
+            menuPanel.Orientation = Orientation.Vertical;
+            menuPanel.Margin = new Thickness(10);
+
+            Button btnViewReports = new Button();
+            btnViewReports.Content = "Просмотр отчетов";
+            btnViewReports.Style = (Style)FindResource("MenuButtonStyle");
+            btnViewReports.Click += (s, e) => { ShowStatusMessage("Просмотр отчетов"); };
+            menuPanel.Children.Add(btnViewReports);
+
+            Button btnCreateInvoice = new Button();
+            btnCreateInvoice.Content = "Сформировать счет";
+            btnCreateInvoice.Style = (Style)FindResource("MenuButtonStyle");
+            btnCreateInvoice.Click += (s, e) => { ShowStatusMessage("Формирование счета"); };
+            menuPanel.Children.Add(btnCreateInvoice);
+
+            Grid.SetRow(menuPanel, 1);
+            ((Grid)this.Content).Children.Add(menuPanel);
+        }
+    }
+}
+Код AdminWindow.xaml.cs:
+using System.Windows;
+using System.Windows.Controls;
+
+namespace LaboratorySystem
+{
+    public partial class AdminWindow : UserWindow
+    {
+        public AdminWindow(int userId, string login, string role) : base(userId, login, role)
+        {
+            InitializeComponent();
+            LoadMenu();
+        }
+
+        private void LoadMenu()
+        {
+            StackPanel menuPanel = new StackPanel();
+            menuPanel.Orientation = Orientation.Vertical;
+            menuPanel.Margin = new Thickness(10);
+
+            Button btnViewReports = new Button();
+            btnViewReports.Content = "Просмотр отчетов";
+            btnViewReports.Style = (Style)FindResource("MenuButtonStyle");
+            btnViewReports.Click += (s, e) => { ShowStatusMessage("Просмотр отчетов"); };
+            menuPanel.Children.Add(btnViewReports);
+
+            Button btnUserActivity = new Button();
+            btnUserActivity.Content = "История входа пользователей";
+            btnUserActivity.Style = (Style)FindResource("MenuButtonStyle");
+            btnUserActivity.Click += (s, e) => { ShowStatusMessage("История входа пользователей"); };
+            menuPanel.Children.Add(btnUserActivity);
+
+            Button btnManageSupplies = new Button();
+            btnManageSupplies.Content = "Управление расходными материалами";
+            btnManageSupplies.Style = (Style)FindResource("MenuButtonStyle");
+            btnManageSupplies.Click += (s, e) => { ShowStatusMessage("Управление расходными материалами"); };
+            menuPanel.Children.Add(btnManageSupplies);
+
+            Button btnManageUsers = new Button();
+            btnManageUsers.Content = "Управление пользователями";
+            btnManageUsers.Style = (Style)FindResource("MenuButtonStyle");
+            btnManageUsers.Click += (s, e) => { ShowStatusMessage("Управление пользователями"); };
+            menuPanel.Children.Add(btnManageUsers);
+
+            Grid.SetRow(menuPanel, 1);
+            ((Grid)this.Content).Children.Add(menuPanel);
+        }
+    }
+}
+Код BlockWindow.xaml:
+<Window x:Class="LaboratorySystem.BlockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Система заблокирована" 
+        Height="236.217" Width="342.555"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        Topmost="True">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Система временно заблокирована" 
+                       FontSize="16" FontWeight="Bold"
+                       HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <TextBlock x:Name="tbTimer" Text="00:10" 
+                       FontSize="24" FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Попробуйте снова через:" 
+                       Margin="0,20,0,0"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>
+Код BlockWindow.xaml.cs:
+using System;
+using System.Windows;
+using System.Windows.Threading;
+
+namespace LaboratorySystem
+{
+    public partial class BlockWindow : Window
+    {
+        private readonly DispatcherTimer updateTimer;
+
+        public BlockWindow(TimeSpan blockDuration)
+        {
+            InitializeComponent();
+            UpdateTimer(blockDuration);
+
+            updateTimer = new DispatcherTimer();
+            updateTimer.Interval = TimeSpan.FromSeconds(1);
+            updateTimer.Tick += (s, e) =>
+            {
+                var remaining = blockDuration - (DateTime.Now - (DateTime.Now - blockDuration));
+                if (remaining <= TimeSpan.Zero)
+                    Close();
+                else
+                    UpdateTimer(remaining);
+            };
+            updateTimer.Start();
+        }
+
+        public void UpdateTimer(TimeSpan remaining)
+        {
+            tbTimer.Text = $"{remaining.Seconds:D2}";
+        }
+    }
+}
+Код LabAssistantWindow.xaml.cs:
+using System.Windows;
+using System.Windows.Controls;
+
+namespace LaboratorySystem
+{
+    public partial class LabAssistantWindow : UserWindow
+    {
+        public LabAssistantWindow(int userId, string login, string role) : base(userId, login, role)
+        {
+            InitializeComponent();
+            LoadMenu();
+        }
+
+        private void LoadMenu()
+        {
+            // Создаем меню для лаборанта
+            StackPanel menuPanel = new StackPanel();
+            menuPanel.Orientation = Orientation.Vertical;
+            menuPanel.Margin = new Thickness(10);
+
+            Button btnAcceptMaterial = new Button();
+            btnAcceptMaterial.Content = "Принять биоматериал";
+            btnAcceptMaterial.Style = (Style)FindResource("MenuButtonStyle");
+            btnAcceptMaterial.Click += (s, e) => { ShowStatusMessage("Прием биоматериала"); };
+            menuPanel.Children.Add(btnAcceptMaterial);
+
+            Button btnCreateReport = new Button();
+            btnCreateReport.Content = "Сформировать отчет";
+            btnCreateReport.Style = (Style)FindResource("MenuButtonStyle");
+            btnCreateReport.Click += (s, e) => { ShowStatusMessage("Формирование отчета"); };
+            menuPanel.Children.Add(btnCreateReport);
+
+            // Добавляем меню в основное окно
+            Grid.SetRow(menuPanel, 1);
+            ((Grid)this.Content).Children.Add(menuPanel);
+        }
+    }
+}
+Код MainWindow.xaml:
+<Window x:Class="LaboratorySystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaboratorySystem"
+        mc:Ignorable="d"
+        Title="Лабораторная информационная система - Вход" 
+        Height="627.039" Width="823.151"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Label Grid.Row="0" Content="Лабораторная информационная система" 
+               FontSize="20" FontWeight="Bold" 
+               HorizontalAlignment="Center" Margin="0,20,0,10"/>
+
+        <!-- Основное содержимое -->
+        <Grid Grid.Row="1" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая часть - изображение -->
+            <Image Grid.Column="0" Source="C:\Users\usersql\source\repos\LaboratorySystem\LaboratorySystem\Images\lab_image.png" 
+                   Margin="20,20,36,43" Stretch="Uniform"/>
+
+            <!-- Правая часть - форма входа -->
+            <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" 
+                    CornerRadius="5" Padding="20" Margin="10,10,0,10">
+                <StackPanel>
+                    <Label Content="Вход в систему" FontSize="16" 
+                           FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                    <StackPanel Margin="0,20,0,0">
+                        <Label Content="Логин:"/>
+                        <TextBox x:Name="txtLogin" Width="200" Height="25"/>
+
+                        <Label Content="Пароль:" Margin="0,10,0,0"/>
+                        <Grid>
+                            <PasswordBox x:Name="txtPassword" Width="200" Height="25"/>
+                            <TextBox x:Name="txtPasswordVisible" Width="200" Height="25" 
+                                     Visibility="Collapsed"/>
+                        </Grid>
+
+                        <CheckBox x:Name="chkShowPassword" Content="Показать пароль" 
+                                  Margin="0,5,0,0" Checked="chkShowPassword_Checked" 
+                                  Unchecked="chkShowPassword_Unchecked"/>
+
+                        <!-- CAPTCHA блок (изначально скрыт) -->
+                        <StackPanel x:Name="captchaPanel" Visibility="Collapsed" Margin="0,15,0,0">
+                            <Label Content="Введите CAPTCHA:"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="txtCaptcha" Width="120" Height="25"/>
+                                <Button x:Name="btnRefreshCaptcha" Grid.Column="1" 
+                                        Content="Обновить" Margin="5,0,0,0" 
+                                        Click="btnRefreshCaptcha_Click"/>
+                            </Grid>
+
+                            <Canvas x:Name="captchaCanvas" Width="200" Height="50" 
+                                    Margin="0,5,0,0" Background="LightGray"/>
+                        </StackPanel>
+
+                        <Label x:Name="lblErrorMessage" Foreground="Red" 
+                               Visibility="Collapsed" Margin="0,10,0,0"/>
+                    </StackPanel>
+
+                    <Button x:Name="btnLogin" Content="Войти" Width="100" 
+                            Height="30" Margin="0,20,0,0" Click="btnLogin_Click"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Нижний колонтитул -->
+       
+    </Grid>
+</Window>
+Код Код MainWindow.xaml.cs:
+using System;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+
+namespace LaboratorySystem
+{
+    public partial class MainWindow : Window
+    {
+        private string captchaText;
+        private int failedAttempts = 0;
+        private DispatcherTimer blockTimer;
+        private DateTime? blockEndTime;
+        private BlockWindow blockWindow;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            InitializeBlockTimer();
+        }
+
+        private void InitializeBlockTimer()
+        {
+            blockTimer = new DispatcherTimer();
+            blockTimer.Interval = TimeSpan.FromSeconds(1);
+            blockTimer.Tick += BlockTimer_Tick;
+        }
+
+        private void BlockTimer_Tick(object sender, EventArgs e)
+        {
+            if (blockEndTime.HasValue)
+            {
+                var remaining = blockEndTime.Value - DateTime.Now;
+
+                if (remaining <= TimeSpan.Zero)
+                {
+                    EndBlocking();
+                }
+                else
+                {
+                    UpdateBlockWindow(remaining);
+                }
+            }
+        }
+
+        private void EndBlocking()
+        {
+            blockTimer.Stop();
+            blockEndTime = null;
+            btnLogin.IsEnabled = true;
+            lblErrorMessage.Content = "";
+            lblErrorMessage.Visibility = Visibility.Collapsed;
+            blockWindow?.Close();
+        }
+
+        private void UpdateBlockWindow(TimeSpan remaining)
+        {
+            if (blockWindow == null || !blockWindow.IsVisible)
+            {
+                blockWindow = new BlockWindow(remaining);
+                blockWindow.Show();
+            }
+            else
+            {
+                blockWindow.UpdateTimer(remaining);
+            }
+        }
+
+        private void chkShowPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            txtPasswordVisible.Text = txtPassword.Password;
+            txtPassword.Visibility = Visibility.Collapsed;
+            txtPasswordVisible.Visibility = Visibility.Visible;
+        }
+
+        private void chkShowPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtPassword.Password = txtPasswordVisible.Text;
+            txtPasswordVisible.Visibility = Visibility.Collapsed;
+            txtPassword.Visibility = Visibility.Visible;
+        }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            if (blockEndTime.HasValue && DateTime.Now < blockEndTime.Value)
+                return;
+
+            string login = txtLogin.Text.Trim();
+            string password = chkShowPassword.IsChecked == true ?
+                txtPasswordVisible.Text : txtPassword.Password;
+
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            {
+                ShowErrorMessage("Введите логин и пароль");
+                return;
+            }
+
+            if (failedAttempts > 0 && (string.IsNullOrEmpty(txtCaptcha.Text) ||
+                txtCaptcha.Text != captchaText))
+            {
+                HandleFailedCaptcha();
+                return;
+            }
+
+            AuthenticateUser(login, password);
+        }
+
+        private void HandleFailedCaptcha()
+        {
+            ShowErrorMessage("Неверная CAPTCHA");
+            GenerateCaptcha();
+
+            if (failedAttempts >= 2)
+            {
+                StartBlocking(TimeSpan.FromSeconds(10));
+                ShowErrorMessage("Система заблокирована на 10 секунд");
+            }
+        }
+
+        private void StartBlocking(TimeSpan duration)
+        {
+            blockEndTime = DateTime.Now.Add(duration);
+            blockTimer.Start();
+            btnLogin.IsEnabled = false;
+        }
+
+        private void AuthenticateUser(string login, string password)
+        {
+            try
+            {
+                using (var connection = new SqlConnection("Data Source=PC309-8;Initial Catalog=LaboratoryDB;Integrated Security=True"))
+                {
+                    connection.Open();
+                    var query = @"SELECT u.id, u.login, r.Name as RoleName 
+                                 FROM Users u JOIN Roles r ON u.id_role = r.id 
+                                 WHERE u.login = @Login AND u.password = @Password";
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Login", login);
+                        command.Parameters.AddWithValue("@Password", password);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                SuccessfulLogin(reader);
+                            }
+                            else
+                            {
+                                FailedLogin();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage("Ошибка подключения: " + ex.Message);
+            }
+        }
+
+        private void SuccessfulLogin(SqlDataReader reader)
+        {
+            failedAttempts = 0;
+            captchaPanel.Visibility = Visibility.Collapsed;
+
+            int userId = reader.GetInt32(0);
+            string userLogin = reader.GetString(1);
+            string roleName = reader.GetString(2);
+
+            OpenUserWindow(userId, userLogin, roleName);
+        }
+
+        private void FailedLogin()
+        {
+            failedAttempts++;
+
+            if (failedAttempts == 1)
+            {
+                GenerateCaptcha();
+                captchaPanel.Visibility = Visibility.Visible;
+                ShowErrorMessage("Неверный логин или пароль. Введите CAPTCHA.");
+            }
+            else
+            {
+                StartBlocking(TimeSpan.FromSeconds(10));
+                ShowErrorMessage("Неверные данные. Система заблокирована.");
+            }
+        }
+
+        private void GenerateCaptcha()
+        {
+            captchaCanvas.Children.Clear();
+            var random = new Random();
+
+            // Генерация CAPTCHA текста
+            captchaText = new string(Enumerable.Repeat("ABCDEFGHJKLMNPQRSTUVWXYZ23456789", 4)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            // Отрисовка символов CAPTCHA
+            for (int i = 0; i < captchaText.Length; i++)
+            {
+                var textBlock = new TextBlock
+                {
+                    Text = captchaText[i].ToString(),
+                    FontSize = random.Next(20, 26),
+                    FontWeight = FontWeights.Bold,
+                    Foreground = new SolidColorBrush(Color.FromRgb(
+                        (byte)random.Next(50, 200),
+                        (byte)random.Next(50, 200),
+                        (byte)random.Next(50, 200)))
+                };
+
+                Canvas.SetLeft(textBlock, i * 30 + random.Next(-8, 8));
+                Canvas.SetTop(textBlock, random.Next(5, 15));
+                captchaCanvas.Children.Add(textBlock);
+            }
+
+            // Добавление шума
+            AddNoiseToCaptcha(random);
+        }
+
+        private void AddNoiseToCaptcha(Random random)
+        {
+            // Линии
+            for (int i = 0; i < 5; i++)
+            {
+                captchaCanvas.Children.Add(new Line
+                {
+                    X1 = random.Next(0, 100),
+                    Y1 = random.Next(0, 40),
+                    X2 = random.Next(100, 200),
+                    Y2 = random.Next(0, 40),
+                    Stroke = Brushes.Gray,
+                    StrokeThickness = 0.5,
+                    Opacity = 0.7
+                });
+            }
+
+            // Точки
+            for (int i = 0; i < 30; i++)
+            {
+                captchaCanvas.Children.Add(new Ellipse
+                {
+                    Width = random.Next(1, 3),
+                    Height = random.Next(1, 3),
+                    Fill = Brushes.Gray,
+                    Opacity = 0.5
+                });
+                Canvas.SetLeft(captchaCanvas.Children[captchaCanvas.Children.Count - 1], random.Next(0, 200));
+                Canvas.SetTop(captchaCanvas.Children[captchaCanvas.Children.Count - 1], random.Next(0, 40));
+            }
+        }
+
+        private void btnRefreshCaptcha_Click(object sender, RoutedEventArgs e)
+        {
+            GenerateCaptcha();
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            lblErrorMessage.Content = message;
+            lblErrorMessage.Visibility = Visibility.Visible;
+        }
+
+        private void OpenUserWindow(int userId, string login, string roleName)
+        {
+            Window userWindow;
+
+            switch (roleName)
+            {
+                case "Лаборант":
+                    userWindow = new LabAssistantWindow(userId, login, roleName);
+                    break;
+                case "Лаборант-исследователь":
+                    userWindow = new ResearchLabAssistantWindow(userId, login, roleName);
+                    break;
+                case "Бухгалтер":
+                    userWindow = new AccountantWindow(userId, login, roleName);
+                    break;
+                case "Администратор":
+                    userWindow = new AdminWindow(userId, login, roleName);
+                    break;
+                default:
+                    ShowErrorMessage("Неизвестная роль пользователя");
+                    return;
+            }
+
+            userWindow.Show();
+            this.Close();
+        }
+    }
+}
+Код ResearchLabAssistantWindow.xaml.cs:
+using System.Windows;
+using System.Windows.Controls;
+
+namespace LaboratorySystem
+{
+    public partial class ResearchLabAssistantWindow : UserWindow
+    {
+        public ResearchLabAssistantWindow(int userId, string login, string role) : base(userId, login, role)
+        {
+            InitializeComponent();
+            LoadMenu();
+        }
+
+        private void LoadMenu()
+        {
+            StackPanel menuPanel = new StackPanel();
+            menuPanel.Orientation = Orientation.Vertical;
+            menuPanel.Margin = new Thickness(10);
+
+            Button btnWorkWithAnalyzer = new Button();
+            btnWorkWithAnalyzer.Content = "Работа с анализатором";
+            btnWorkWithAnalyzer.Style = (Style)FindResource("MenuButtonStyle");
+            btnWorkWithAnalyzer.Click += (s, e) => { ShowStatusMessage("Работа с анализатором"); };
+            menuPanel.Children.Add(btnWorkWithAnalyzer);
+
+            Grid.SetRow(menuPanel, 1);
+            ((Grid)this.Content).Children.Add(menuPanel);
+        }
+    }
+}
+Код UserWindow.xaml:
+<Window x:Class="LaboratorySystem.UserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaboratorySystem"
+        mc:Ignorable="d"
+        Title="Лабораторная система" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка с информацией о пользователе -->
+        <Border Grid.Row="0" Background="#FF3F51B5" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Фото и информация пользователя -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Image Width="50" Height="50" Source="/Images/user_placeholder.png" 
+                           Margin="0,0,10,0"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="tbUserName" Text="Иванов Иван" 
+                                   Foreground="White" FontWeight="Bold"/>
+                        <TextBlock x:Name="tbUserRole" Text="Роль" Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Таймер сеанса -->
+                <StackPanel x:Name="sessionTimerPanel" Grid.Column="1" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Время сеанса:" Foreground="White" Margin="0,0,5,0"/>
+                    <TextBlock x:Name="tbSessionTimer" Text="02:30:00" 
+                               Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+
+                <!-- Кнопка выхода -->
+                <Button Grid.Column="2" Content="Выход" Width="80" 
+                        Click="btnLogout_Click" Background="#FFFF5722" 
+                        Foreground="White" BorderBrush="Transparent"/>
+            </Grid>
+        </Border>
+
+        <!-- Основное рабочее пространство -->
+        <Frame x:Name="mainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+
+        <!-- Статусная строка -->
+        <StatusBar Grid.Row="2" Background="#FFE0E0E0">
+            <StatusBarItem>
+                <TextBlock Text="Лабораторная информационная система v1.0"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="tbStatus" Text="Готово" Margin="5,0"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
+Код UserWindow.xaml.cs:
+using System;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
+
+namespace LaboratorySystem
+{
+    public partial class UserWindow : Window
+    {
+        protected int userId;
+        protected string userLogin;
+        protected string userRole;
+        protected DispatcherTimer sessionTimer;
+        protected TimeSpan sessionDuration = TimeSpan.FromMinutes(150); // 2 часа 30 минут
+        protected DateTime sessionStartTime;
+
+        public UserWindow(int userId, string login, string role)
+        {
+            InitializeComponent();
+            this.userId = userId;
+            this.userLogin = login;
+            this.userRole = role;
+
+            tbUserName.Text = login; // В реальном приложении здесь должно быть имя пользователя
+            tbUserRole.Text = role;
+
+            // Показываем таймер только для лаборантов
+            if (role != "Лаборант" && role != "Лаборант-исследователь")
+            {
+                sessionTimerPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                InitializeSessionTimer();
+            }
+        }
+
+        private void InitializeSessionTimer()
+        {
+            sessionStartTime = DateTime.Now;
+            sessionTimer = new DispatcherTimer();
+            sessionTimer.Interval = TimeSpan.FromSeconds(1);
+            sessionTimer.Tick += SessionTimer_Tick;
+            sessionTimer.Start();
+        }
+
+        private void SessionTimer_Tick(object sender, EventArgs e)
+        {
+            var elapsed = DateTime.Now - sessionStartTime;
+            var remaining = sessionDuration - elapsed;
+
+            if (remaining <= TimeSpan.Zero)
+            {
+                // Время сеанса истекло
+                sessionTimer.Stop();
+                MessageBox.Show("Время сеанса истекло. Система будет заблокирована на 30 минут.", "Время сеанса", MessageBoxButton.OK, MessageBoxImage.Warning);
+                BlockSystem();
+            }
+            else if (remaining <= TimeSpan.FromMinutes(15))
+            {
+                // Осталось 15 минут или меньше - предупреждение
+                tbSessionTimer.Foreground = Brushes.Red;
+                if (remaining.Minutes == 15 && remaining.Seconds == 0)
+                {
+                    MessageBox.Show($"До окончания сеанса осталось 15 минут. После окончания система будет заблокирована на 30 минут.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+
+            tbSessionTimer.Text = remaining.ToString(@"hh\:mm\:ss");
+        }
+
+        private void BlockSystem()
+        {
+            // Блокировка системы на 30 минут
+            var loginWindow = new MainWindow();
+            loginWindow.Show();
+            this.Close();
+
+            // В реальном приложении здесь должна быть блокировка входа для этого пользователя
+            MessageBox.Show("Система заблокирована для кварцевания помещений. Попробуйте войти через 30 минут.", "Система заблокирована", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            if (sessionTimer != null)
+            {
+                sessionTimer.Stop();
+            }
+
+            var loginWindow = new MainWindow();
+            loginWindow.Show();
+            this.Close();
+        }
+
+        protected void ShowStatusMessage(string message)
+        {
+            tbStatus.Text = message;
+        }
+    }
+}

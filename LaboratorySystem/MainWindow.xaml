@@ -1,0 +1,122 @@
+﻿<Window x:Class="LaboratorySystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Лабораторная информационная система - Вход"
+        Height="487" Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Background="#FF5722">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Заголовок -->
+            <RowDefinition Height="*"/>
+            <!-- Основной блок -->
+            <RowDefinition Height="Auto"/>
+            <!-- Таймер -->
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Label Grid.Row="0" Content="Лабораторная информационная система"
+               FontSize="20" FontWeight="Bold"
+               HorizontalAlignment="Center"
+               Margin="90,0,90,30" />
+
+        <!-- Основной блок -->
+        <Grid Grid.Row="1" Margin="42,25,38,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Вход в систему -->
+                <RowDefinition Height="Auto"/>
+                <!-- Логин -->
+                <RowDefinition Height="Auto"/>
+                <!-- Пароль -->
+                <RowDefinition Height="Auto"/>
+                <!-- Показать пароль -->
+                <RowDefinition Height="54"/>
+                <!-- CAPTCHA -->
+                <!-- Ошибка -->
+                <!-- Кнопки -->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Вход в систему -->
+            <Label Grid.Row="0" Content="Вход в систему"
+                   FontSize="16" FontWeight="Bold"
+                   HorizontalAlignment="Center" Margin="148,-60,171,80" Grid.Column="1" Width="141"/>
+
+            <!-- Логин -->
+            <Label Grid.Column="0" Content="Логин:" VerticalAlignment="Center" Margin="0,10,0,16"/>
+            <TextBox x:Name="txtLogin" Grid.Column="1" Height="25" Margin="129,12,102,16"/>
+
+            <!-- Пароль -->
+            <Label Grid.Row="2" Grid.Column="0" Content="Пароль:" VerticalAlignment="Center" Margin="0,6"/>
+            <Grid Grid.Row="2" Grid.Column="1" Margin="0,5">
+                <Grid>
+                    <PasswordBox x:Name="txtPassword" Height="25" Margin="130,2,100,2"/>
+                    <TextBox x:Name="txtPasswordVisible" Height="25" Visibility="Collapsed" Margin="130,2,100,2"/>
+                </Grid>
+            </Grid>
+
+            <!-- Показать пароль -->
+            <CheckBox x:Name="chkShowPassword" Grid.Row="3"
+                      Content="Показать пароль" Margin="129,10,200,0"
+                      Checked="chkShowPassword_Checked"
+                      Unchecked="chkShowPassword_Unchecked" Grid.Column="1"/>
+
+            <!-- CAPTCHA -->
+            <Grid x:Name="captchaPanel"  Visibility="Collapsed" Margin="92,98,143,-165" Grid.Row="4" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Введите CAPTCHA:" Margin="0,0,0,5"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto" MinWidth="66"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtCaptcha" Grid.Column="0" Margin="0,0,42,1"/>
+                    <Button x:Name="btnRefreshCaptcha" Grid.Column="1" Content="Обновить"
+                            Margin="0,0,5,0" Click="btnRefreshCaptcha_Click"/>
+                </Grid>
+                <Canvas x:Name="captchaCanvas" Grid.Row="2" Height="50"
+                        Margin="7,9,0,-2" Background="LightGray" HorizontalAlignment="Left" Width="208" VerticalAlignment="Top"/>
+            </Grid>
+
+            <!-- Ошибка -->
+            <Label x:Name="lblErrorMessage" Grid.Row="4"
+                   Foreground="Blue" Visibility="Collapsed"
+                   Margin="38,65,22,-38" Grid.Column="1"/>
+
+            <!-- Кнопки -->
+            <Grid Grid.Row="4" Margin="38,22,102,0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnLogin" Grid.Column="1" Content="Войти" Width="100" Height="30"
+                        Click="btnLogin_Click"/>
+                <Button x:Name="btnRegistr" Grid.Column="3" Content="Регистрация" Width="100" Height="30"
+                        Click="btnRegistr_Click"/>
+            </Grid>
+        </Grid>
+
+        <!-- Таймер -->
+        <TextBlock x:Name="tbBlockTimer"
+                   Grid.Row="2"
+                   Foreground="Red"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,10"
+                   Visibility="Collapsed"/>
+    </Grid>
+</Window>
+
+

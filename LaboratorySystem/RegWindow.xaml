@@ -1,0 +1,78 @@
+﻿<Window x:Class="LaboratorySystem.RegWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaboratorySystem"
+        mc:Ignorable="d"
+        Title="RegWindow" Height="450" Width="900"
+        ResizeMode="NoResize">
+    <Grid Background="#FF5722">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225*"/>
+            <ColumnDefinition Width="225*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="60*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Лабораторная информационная система"
+               FontSize="20" FontWeight="Bold"
+               HorizontalAlignment="Left" Margin="240,15,0,0" Height="36"
+               VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="428"/>
+
+        <Label Content="Регистрация"
+               FontSize="20" FontWeight="Bold"
+               HorizontalAlignment="Left" Margin="380,1,0,0" Height="37"
+               VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="1" />
+
+        <Label Content="Логин:" HorizontalAlignment="Right" Width="46" Grid.Row="2" Margin="0,8,298,0" Height="23" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtLogin" Width="230" Height="25" HorizontalAlignment="Center" Margin="141,8,63,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+        <Label Content="Пароль:" Margin="22,7,0,0" HorizontalAlignment="Left" Width="53" Grid.Row="2" Height="26" VerticalAlignment="Top" Grid.Column="1"/>
+        <PasswordBox x:Name="txtPassword" Width="230" Height="25" HorizontalAlignment="Left" Margin="83,8,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="txtPasswordVisible" Visibility="Collapsed" Width="230" Height="25" HorizontalAlignment="Left" Margin="83,8,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1"/>
+        <CheckBox x:Name="chkShowPassword" Content="Показать пароль" Margin="318,12,0,0" Grid.Row="2" Checked="chkShowPassword_Checked" Unchecked="chkShowPassword_Unchecked" HorizontalAlignment="Left" Width="123" Height="29" VerticalAlignment="Top" Grid.Column="1"/>
+
+        <Label Content="Почта:" HorizontalAlignment="Right" Width="46" Grid.Row="3" Margin="0,7,297,0" Height="23" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtEmail" Width="230" Height="25" HorizontalAlignment="Center" Margin="142,8,62,0" Grid.Row="3" VerticalAlignment="Top"/>
+
+        <Label Content="Номер телефона:" Margin="418,7,0,0" HorizontalAlignment="Left" Width="105" Grid.Row="3" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBox MaxLength="11" x:Name="txtPhoneNumber" Width="230" Height="25" HorizontalAlignment="Left" Margin="83,8,0,0" VerticalAlignment="Top" Grid.Row="3" Grid.Column="1"/>
+
+        <Label Content="Имя:" HorizontalAlignment="Right" Width="36" Grid.Row="4" Margin="0,8,297,0" Height="23" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtName" Width="230" Height="25" HorizontalAlignment="Center" Margin="142,8,62,0" Grid.Row="4" VerticalAlignment="Top"/>
+
+        <Label Content="Фамилия:" Margin="14,7,0,0" HorizontalAlignment="Left" Width="63" Grid.Row="4" Height="26" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="txtSurName" Width="230" Height="25" HorizontalAlignment="Left" Margin="83,8,0,0" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1"/>
+
+        <Label Content="Дата рождения:" HorizontalAlignment="Right" Width="98" Grid.Row="5" Margin="0,8,298,0" Height="33" VerticalAlignment="Top"/>
+        <DatePicker x:Name="txtBirthday" Width="230" Height="25" HorizontalAlignment="Center" Margin="142,8,62,0" Grid.Row="5" VerticalAlignment="Top"/>
+
+        <Label Content="Тип полиса:" Margin="2,7,0,0" HorizontalAlignment="Left" Width="75" Grid.Row="5" Height="34" VerticalAlignment="Top" Grid.Column="1"/>
+        <ComboBox x:Name="TypePolis" DisplayMemberPath="name" Width="230" Height="25" HorizontalAlignment="Left" Margin="83,8,0,0" VerticalAlignment="Top" Grid.Row="5" Grid.Column="1" SelectionChanged="TypePolis_SelectionChanged"/>
+
+        <Label Content="Полис:" HorizontalAlignment="Right" Width="48" Grid.Row="6" Margin="0,7,298,0" Height="33" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPolis" Width="230" Height="25" HorizontalAlignment="Center" MaxLength="16" Margin="142,8,62,0" Grid.Row="6" VerticalAlignment="Top"/>
+
+        <Label Content="Паспорт:" Margin="19,7,0,0" HorizontalAlignment="Left" Width="61" Grid.Row="6" Height="26" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox MaxLength="10" x:Name="txtPasport" Width="230" Height="25" HorizontalAlignment="Left" Margin="83,8,0,0" VerticalAlignment="Top" Grid.Row="6" Grid.Column="1"/>
+
+        <Label Content="Страховая компания:" HorizontalAlignment="Right" Width="127" Grid.Row="7" Margin="0,8,297,0" Height="33" VerticalAlignment="Top"/>
+        <ComboBox x:Name="txtInsurance" DisplayMemberPath="name" Width="230" Height="25" HorizontalAlignment="Center" Margin="142,8,62,0" Grid.Row="7" VerticalAlignment="Top"/>
+
+        <Button x:Name="btnRegistr" Content="Зарегистрироваться" Width="201"  
+                            Height="45" Margin="114,0,132,10" Click="btnRegistr_Click" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="8" VerticalAlignment="Bottom"/>
+
+        <Button x:Name="btnBack" Content="Вернуться" Width="207"  
+                            Height="45" Margin="106,0,134,10" Click="btnBack_Click" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="8" VerticalAlignment="Bottom"/>
+    </Grid>
+</Window>

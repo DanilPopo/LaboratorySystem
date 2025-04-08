@@ -1,0 +1,54 @@
+﻿<Window x:Class="LaboratorySystem.CreatePersonalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaboratorySystem"
+        mc:Ignorable="d"
+        Title="CreatePersonalWindow" Height="602" Width="844.5"
+        ResizeMode="NoResize">
+    <Grid Background="#FF5722">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="58*"/>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="49*"/>
+
+
+        </Grid.RowDefinitions>
+        <Label Content="Добавление персонала в систему" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0"  VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="215,30,129,24" Width="494" Height="48"/>
+
+        <Label Content="Имя:" Grid.Row="1" VerticalAlignment="Center" Margin="12,45,0,103" HorizontalAlignment="Left" Width="53" Height="26"/>
+        <TextBox x:Name="txtName" Grid.Row="1" Height="30" Width="300" VerticalAlignment="Center" Margin="101,45,0,99" HorizontalAlignment="Left" Background="White"/>
+        <Label Content="Фамилия:" Grid.Row="1" VerticalAlignment="Center" Margin="10,97,0,51" HorizontalAlignment="Left" Width="73" Height="26"/>
+        <TextBox x:Name="txtSurName" Grid.Row="1" Height="30" Width="300" VerticalAlignment="Center" Margin="101,93,0,51" HorizontalAlignment="Left"/>
+
+        <Label Content="Телефон:" Grid.Row="1" VerticalAlignment="Center" Margin="10,45,0,103" HorizontalAlignment="Left" Width="72" Grid.Column="1" Height="26"/>
+        <TextBox x:Name="txtPhoneNumber" MaxLength="11" Grid.Row="1" Height="30" Width="300" VerticalAlignment="Center" Margin="82,45,0,99" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label  Content="Почта:" Grid.Row="1" VerticalAlignment="Center" Margin="10,93,0,55" Grid.Column="1" HorizontalAlignment="Left" Width="62" Height="26"/>
+        <TextBox x:Name="txtEmail" Grid.Row="1" Height="30" Width="300" VerticalAlignment="Center" Margin="82,89,0,55" Grid.Column="1" HorizontalAlignment="Left"/>
+
+        <Label Content="Логин:" Grid.Row="2" VerticalAlignment="Center" Margin="10,41,0,98" HorizontalAlignment="Left" Width="72" Height="26"/>
+        <TextBox x:Name="txtLogin" Grid.Row="2" Height="30" Width="300" VerticalAlignment="Center" Margin="101,41,0,94" HorizontalAlignment="Left"/>
+
+        <Label Content="Пароль:" Grid.Row="2" VerticalAlignment="Center" Margin="10,89,0,44" Height="32" HorizontalAlignment="Left" Width="62"/>
+        <PasswordBox x:Name="txtPassword" Grid.Row="2" Height="30" Width="300" VerticalAlignment="Center" Margin="101,89,0,46" HorizontalAlignment="Left"/>
+        <TextBox x:Name="txtPasswordVisible" Visibility="Collapsed" Grid.Row="2" Height="30" Width="300" VerticalAlignment="Top" Margin="101,90,0,0" HorizontalAlignment="Left"/>
+        <CheckBox x:Name="chkShowPassword" Content="Показать пароль" Margin="12,136,0,0" Grid.Row="2" Checked="chkShowPassword_Checked" Unchecked="chkShowPassword_Unchecked" HorizontalAlignment="Left" Width="122" Height="29" VerticalAlignment="Top"/>
+
+        <Label Content="Паспорт:" Grid.Row="2" VerticalAlignment="Center" Margin="10,45,0,94" HorizontalAlignment="Left" Width="72" Grid.Column="1" Height="26"/>
+        <TextBox x:Name="txtPasport" MaxLength="10" Grid.Row="2" Height="30" Width="300" VerticalAlignment="Center" Margin="82,45,0,90" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Content="Д/р:" Grid.Row="2" VerticalAlignment="Center" Margin="10,89,0,44" Height="32" Grid.Column="1" HorizontalAlignment="Left" Width="42"/>
+        <DatePicker x:Name="txtBirthday" Grid.Row="2" Height="30" Width="300" VerticalAlignment="Center" Margin="82,89,0,46" Grid.Column="1" HorizontalAlignment="Left"/>
+
+        <Label x:Name="txtRole" Content="Должность:" Grid.Row="3" VerticalAlignment="Center" Margin="12,34,0,87" HorizontalAlignment="Left" Width="72" Height="26"/>
+        <ComboBox x:Name="role" Grid.Row="3" DisplayMemberPath="name" Height="30" Width="300" VerticalAlignment="Center" Margin="101,34,0,83" HorizontalAlignment="Left"/>
+
+        <Button Content="Добавить сотрудника" Grid.Row="3" Height="78" Width="357" VerticalAlignment="Center" Margin="25,32,0,33" Grid.Column="1" HorizontalAlignment="Left" Click="Button_Click"/>
+
+    </Grid>
+</Window>

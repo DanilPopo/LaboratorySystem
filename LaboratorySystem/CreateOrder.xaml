@@ -1,0 +1,53 @@
+﻿<Window x:Class="LaboratorySystem.CreateOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaboratorySystem"
+        mc:Ignorable="d"
+        Title="CreateOrder" Height="555" Width="500" Background="#EAEAEA">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="63*"/>
+            <RowDefinition Height="327*"/>
+            <RowDefinition Height="79*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Grid Grid.Row="0" Background="#FF5722">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Создание заказа" Foreground="White" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
+        </Grid>
+
+        <!-- Основное содержимое -->
+        <Grid Grid.Row="1" Margin="15,15,10,5" Grid.RowSpan="3">
+            <Label Content="Пациент:" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Margin="10,0,0,399" Height="35"/>
+            <ComboBox x:Name="cmbPatient" DisplayMemberPath="login" Height="35" Width="242" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="75,0,150,399"/>
+
+            <DataGrid IsEnabled="False" x:Name="dbServe" AutoGenerateColumns="False" Height="317" VerticalAlignment="Top" Width="284" HorizontalAlignment="Left" Margin="10,52,0,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Услуга" Binding="{Binding service}" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="Выбрать">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="chkServices" IsChecked="{Binding tr}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- Кнопки -->
+        <Grid Grid.Row="1" Margin="0,10,0,10" Grid.RowSpan="3" >
+            <Button Content="Создать заказ" Margin="279,392,34,0" Click="Button_Click"/>
+            <Button x:Name="CreatePacient" Content="Добавить пациента" Click="CreatePacient_Click" Margin="25,392,290,0"/>
+        </Grid>
+
+    </Grid>
+</Window>

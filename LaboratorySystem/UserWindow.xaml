@@ -1,0 +1,64 @@
+﻿<Window x:Class="LaboratorySystem.UserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaboratorySystem"
+        mc:Ignorable="d"
+        Title="Лабораторная система" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="25"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка с информацией о пользователе -->
+        <Border Grid.Row="0" Background="#FF5722" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Фото и информация пользователя -->
+                <Grid Grid.Column="0" Margin="0,0,0,-9">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <Grid Grid.Column="1" VerticalAlignment="Center" Margin="0,2,-3,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="47"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Пользователь:" Foreground="White" Grid.Row="0" Margin="81,0,-82,22"/>
+                        <TextBlock x:Name="tbUserName" Text="Иванов Иван" Foreground="White" FontWeight="Bold" Margin="82,25,-82,-2"/>
+                        <Image Width="50" Height="47" x:Name="img" Margin="10,0,19,-2" VerticalAlignment="Bottom"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Кнопка выхода -->
+                <Button Grid.Column="2" Content="Выход" Width="80"
+                        Click="btnLogout_Click" Background="#FFB83B13"
+                        Foreground="White" BorderBrush="Transparent" VerticalAlignment="Center" Height="50"/>
+            </Grid>
+        </Border>
+
+        <!-- Основное рабочее пространство -->
+        <Frame x:Name="mainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+
+        <!-- Статусная строка -->
+        <StatusBar Grid.Row="2" Background="#FF5722">
+            <StatusBarItem>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

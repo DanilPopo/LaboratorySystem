@@ -1,0 +1,78 @@
+﻿<Window x:Class="LaboratorySystem.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Окно администратора" Height="660" Width="850"
+        WindowStartupLocation="CenterScreen" Background="#EAEAEA">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="68"/>
+            <RowDefinition Height="43"/>
+            <RowDefinition Height="53"/>
+            <RowDefinition/>
+            <RowDefinition Height="38.04"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Grid Grid.Row="0" Background="#FF5722">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Width="55" Height="55" x:Name="img" Margin="20,10,10,5" Grid.Column="0"/>
+            <Grid Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock Text="Администратор:" Foreground="White" FontSize="14" Margin="0,-15,0,15"/>
+                <TextBlock x:Name="tbUserName" Text="Иванов Иван" Foreground="White" FontWeight="Bold" FontSize="16" Margin="0,17,0,-17"/>
+            </Grid>
+            <Button x:Name="btnLogout" Content="Выход" Width="90" Height="35" 
+                    Margin="15" Click="BtnLogout_Click" Grid.Column="2" Background="#D84315" Foreground="White"/>
+        </Grid>
+
+        <!-- Основное содержимое -->
+        <TabControl Grid.Row="1" Margin="15,15,15,15" Background="White" Grid.RowSpan="3">
+            <TabItem Header="Пользователи">
+                <Grid Margin="10,0,10,0" Height="464">
+                    <Button x:Name="btnRefreshUsers" Content="Обновить список" 
+                            Margin="10,10,0,0" Padding="5" Click="BtnRefreshUsers_Click" Background="#FF5722" Foreground="White" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="774"/>
+                    <DataGrid x:Name="dgUsers" Height="350" AutoGenerateColumns="False" 
+                              CanUserAddRows="False" IsReadOnly="True" SelectionChanged="dgUsers_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Логин" Binding="{Binding login}" Width="150"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding name}" Width="200"/>
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Role.name}" Width="150"/>
+                            <DataGridTextColumn Header="Последний вход" Binding="{Binding Lastenter.lastenter}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid  Margin="0,418,692,0">
+                        <Button x:Name="btnAddUser" Content="Добавить" Padding="5" Margin="0,0,5,0" Click="BtnAddUser_Click" Background="#FF5722" Foreground="White"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="История входа">
+                <Grid Height="530">
+                    <Grid Margin="10,10,0,480">
+                        <Label Content="Фильтр по логину:" VerticalAlignment="Top" Margin="2,4,10,0" Height="36"/>
+                        <TextBox x:Name="txtFilterLogin" Margin="119,4,456,7"/>
+                        <Button x:Name="btnApplyFilter" Content="Применить" Padding="5" Margin="364,4,255,7" Click="BtnApplyFilter_Click" Background="#FF5722" Foreground="White"/>
+                        <Button x:Name="btnResetFilter" Content="Сбросить" Padding="5" Click="BtnResetFilter_Click" Background="#D84315" Foreground="White" Margin="563,4,70,7"/>
+                    </Grid>
+                    <DataGrid x:Name="dgLoginHistory" AutoGenerateColumns="False" 
+                              CanUserAddRows="False" IsReadOnly="True" Margin="10,71,10,10" SelectionChanged="dgLoginHistory_SelectionChanged_1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Логин" Binding="{Binding Users.login}" Width="120"/>
+                            <DataGridTextColumn Header="Дата входа" Binding="{Binding lastenter}" Width="150"/>
+                            <DataGridTextColumn Header="IP адрес" Binding="{Binding ip}" Width="120"/>
+                            <DataGridTextColumn Header="Статус входа" Binding="{Binding Reasons.name}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Статусная строка -->
+        <StatusBar Grid.Row="4" Background="#FF5722" Margin="0,3,0,0"/>
+    </Grid>
+</Window>
